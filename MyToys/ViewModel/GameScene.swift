@@ -59,6 +59,8 @@ class GameScene: SKScene {
             Lebal3.horizontalAlignmentMode = .center
         }
         
+        
+        
         home = (self.childNode(withName: "home") as? SKSpriteNode)!
         homeNormal = (self.childNode(withName: "homeNormal") as? SKSpriteNode)!
         button = self.childNode(withName: "button") as? SKSpriteNode
