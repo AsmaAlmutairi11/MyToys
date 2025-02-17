@@ -117,72 +117,69 @@ class GameScene: SKScene {
         for touch in touches {
             let location = touch.location(in: self)
 
+            // تحقق من الضغط على NextButton فقط إذا كان مرئي
             if NextButton.contains(location) && NextButton.alpha == 1.0 {
-                handleNextButtonTouch()
+                // إضافة تأثير تصغير وتكبير ل NextButton
+                let scaleDown = SKAction.scale(to: 0.9, duration: 0.1)  // تصغير الزر
+                let scaleUp = SKAction.scale(to: 1.1, duration: 0.1)    // تكبير الزر
+                let scaleNormal = SKAction.scale(to: 1.0, duration: 0.1) // إعادة الزر إلى حجمه الطبيعي
+            
+                let pulseSequence = SKAction.sequence([scaleDown, scaleUp, scaleNormal])
+                NextButton.run(pulseSequence)
+                
+                // الانتقال إلى المشهد التالي بعد التأثير
+                goToNextScene()  // الانتقال إلى المشهد التالي
             } else if button.contains(location) {
-                handleButtonTouch()
+                // نفس التأثير على الزر الأول (button)
+                let scaleDown = SKAction.scale(to: 0.9, duration: 0.1)  // تصغير الزر
+                let scaleUp = SKAction.scale(to: 1.1, duration: 0.1)    // تكبير الزر
+                let scaleNormal = SKAction.scale(to: 1.0, duration: 0.1) // إعادة الزر إلى حجمه الطبيعي
+                
+                let pulseSequence = SKAction.sequence([scaleDown, scaleUp, scaleNormal])
+                button.run(pulseSequence)
+                
+                switch currentStep {
+                case 0:
+                    // إخفاء Label1 وإظهار Label2
+                    Lebal1.run(SKAction.fadeOut(withDuration: 0.5))
+                    Lebal2.run(SKAction.fadeIn(withDuration: 0.5))
+                    currentStep = 1
+                case 1:
+                    // إخفاء Label2 وإظهار Label3
+                    Lebal2.run(SKAction.fadeOut(withDuration: 0.5))
+                    Lebal3.run(SKAction.fadeIn(withDuration: 0.5))
+                    currentStep = 2
+                    home.run(SKAction.fadeIn(withDuration: 0.5))
+                    homeNormal.run(SKAction.fadeIn(withDuration: 0.5))
+                    
+                    // إخفاء الزر الأول (button)
+                    button.run(SKAction.fadeOut(withDuration: 0.5))
+                    
+                    // إضافة تأخير قبل ظهور NextButton
+                    let delay = SKAction.wait(forDuration: 0.3)  // تأخير لمدة 0.3 ثانية
+                    let fadeInNextButton = SKAction.fadeIn(withDuration: 1.0)  // ظهور تدريجي لمدة 1 ثانية
+                    
+                    let sequence = SKAction.sequence([delay, fadeInNextButton])  // دمج التأخير مع التأثير
+                    NextButton.run(sequence)  // تنفيذ التأثير
+                    
+                default:
+                    break
+                }
             }
         }
     }
 
-    // دالة لمعالجة الضغط على NextButton
-   func handleNextButtonTouch() {
-        // إضافة تأثير التلاشي لجعل NextButton يختفي
-        let fadeOutAction = SKAction.fadeOut(withDuration: 0.5)
-        
-        // تشغيل تأثير التلاشي على NextButton
-        NextButton.run(fadeOutAction) {
-            // بعد انتهاء تأثير التلاشي، الانتقال إلى المشهد التالي
-            self.goToNextScene()
+
+
+
+
+    private func goToNextScene() {
+        if let view = self.view {
+            let transition = SKTransition.fade(withDuration: 1.0)  // استخدام تأثير fade أثناء الانتقال
+            let scene = GameScene2(size: view.bounds.size)  // أنشئ مشهد GameScene2 بنفس حجم الشاشة
+            view.presentScene(scene, transition: transition)  // انتقل إلى المشهد الجديد مع الانتقال
         }
     }
-
-
-
-
-    // دالة لمعالجة الضغط على button
-    func handleButtonTouch() {
-        let scaleDown = SKAction.scale(to: 0.9, duration: 0.1)
-        let scaleUp = SKAction.scale(to: 1.1, duration: 0.1)
-        let scaleNormal = SKAction.scale(to: 1.0, duration: 0.1)
-        
-        let pulseSequence = SKAction.sequence([scaleDown, scaleUp, scaleNormal])
-        button.run(pulseSequence)
-
-        switch currentStep {
-        case 0:
-            Lebal1.run(SKAction.fadeOut(withDuration: 0.5))
-            Lebal2.run(SKAction.fadeIn(withDuration: 0.5))
-            currentStep = 1
-        case 1:
-            Lebal2.run(SKAction.fadeOut(withDuration: 0.5))
-            Lebal3.run(SKAction.fadeIn(withDuration: 0.5))
-            currentStep = 2
-            home.run(SKAction.fadeIn(withDuration: 0.5))
-            homeNormal.run(SKAction.fadeIn(withDuration: 0.5))
-            button.run(SKAction.fadeOut(withDuration: 0.5))
-
-            let delay = SKAction.wait(forDuration: 0.3)
-            let fadeInNextButton = SKAction.fadeIn(withDuration: 1.0)
-            let sequence = SKAction.sequence([delay, fadeInNextButton])
-            NextButton.run(sequence)
-
-        default:
-            break
-        }
-    }
-
-
-
-    func goToNextScene() {
-        if let nextScene = SKScene(fileNamed: "GameScene2") as? GameScene2 {
-            nextScene.scaleMode = .aspectFill
-
-            let transition = SKTransition.fade(withDuration: 1.0) // يمكن تغيير التأثير هنا
-            self.view?.presentScene(nextScene, transition: transition)
-        }
-    }
-
 
 
     
