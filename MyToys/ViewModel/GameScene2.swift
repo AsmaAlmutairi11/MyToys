@@ -10,7 +10,7 @@ import SpriteKit
 import GameplayKit
 
 var girl: SKSpriteNode!
-var cloud: SKSpriteNode!
+var cloud2: SKSpriteNode!
 var basket: SKSpriteNode!
 var herp: SKSpriteNode!
 var BearNormal: SKSpriteNode!
@@ -20,6 +20,7 @@ var giraffeNormal: SKSpriteNode!
 var rocket: SKSpriteNode!
 var TextBackground1: SKSpriteNode!
 var Lebal1: SKLabelNode!
+var button2: SKSpriteNode!
 
 class GameScene2: SKScene {
     
@@ -31,6 +32,7 @@ class GameScene2: SKScene {
         if cloud != nil {
             moveClouds()
         }
+        button2 = self.childNode(withName: "button2") as? SKSpriteNode
         herp = self.childNode(withName: "herp") as? SKSpriteNode
         TextBackground1 = self.childNode(withName: "TextBackground1") as? SKSpriteNode
         trainNormal = self.childNode(withName: "trainNormal") as? SKSpriteNode
