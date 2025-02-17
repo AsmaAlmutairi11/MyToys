@@ -174,12 +174,13 @@ class GameScene: SKScene {
 
 
     private func goToNextScene() {
-        if let view = self.view {
-            let transition = SKTransition.fade(withDuration: 1.0)  // استخدام تأثير fade أثناء الانتقال
-            let scene = GameScene2(size: view.bounds.size)  // أنشئ مشهد GameScene2 بنفس حجم الشاشة
-            view.presentScene(scene, transition: transition)  // انتقل إلى المشهد الجديد مع الانتقال
+        if let nextScene = SKScene(fileNamed: "GameScene2") {
+            nextScene.scaleMode = .aspectFill
+            let transition = SKTransition.fade(withDuration: 1.0) // تأثير الانتقال
+            self.view?.presentScene(nextScene, transition: transition)
         }
     }
+
 
 
     
