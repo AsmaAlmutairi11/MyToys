@@ -28,8 +28,8 @@ class GameScene2: SKScene {
     override func didMove(to view: SKView) {
         super.didMove(to: view)
         
-        cloud = self.childNode(withName: "cloud") as? SKSpriteNode
-        if cloud != nil {
+        cloud2 = self.childNode(withName: "cloud2") as? SKSpriteNode
+        if cloud2 != nil {
             moveClouds()
         }
         button2 = self.childNode(withName: "button2") as? SKSpriteNode
@@ -60,10 +60,10 @@ class GameScene2: SKScene {
     
     func moveClouds() {
         // Example of how to move clouds towards each other
-        let moveToCloud = SKAction.move(to: cloud.position, duration: 4.0)
+        let moveToCloud = SKAction.move(to: cloud2.position, duration: 4.0)
       
         
-        cloud.run(moveToCloud)
+        cloud2.run(moveToCloud)
 
     }
 }
